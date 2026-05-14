@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-        name="CN", 
+        name="CommuNiche", 
         version='1.0',
         author="Hui-Sheng Li",
         author_email="lihs@mails.ccnu.edu.cn",
