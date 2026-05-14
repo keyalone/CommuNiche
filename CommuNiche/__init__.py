@@ -6,5 +6,6 @@ Created on Thu May 14 10:50:21 2026
 """
 
 from .cp import *
-from utils import *
-from plot_heatmap import *
+from .utils import *
+# from .plot_heatmap import *
+# from .plot_heatmap import enrichment_heatmap
