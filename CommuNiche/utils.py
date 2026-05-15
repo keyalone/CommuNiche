@@ -21,12 +21,15 @@ import matplotlib.colors as mcolors
 import os
 import scipy.stats as stats
 from statsmodels.stats.multitest import multipletests
-from scipy.cluster.hierarchy import fcluster, linkage, leaves_list, dendrogram
+from scipy.cluster.hierarchy import fcluster, linkage, leaves_list, dendrogram, cut_tree
 from scipy.spatial.distance import squareform
+from typing import Union, Tuple
+
+from scipy.sparse import issparse
+from sklearn.cluster import MiniBatchKMeans
 
 
 from sklearn.metrics.pairwise import cosine_similarity
-# from scipy.spatial.distance import pdist, squareform
 from sklearn.neighbors import NearestNeighbors
 import random
 from joblib import Parallel, delayed 
@@ -36,13 +39,10 @@ import networkx as nx
 
 import matplotlib.pyplot as plt
 from scipy.spatial import ConvexHull
-# from plot_heatmap import enrichment_heatmap
 import matplotlib.lines as mlines
-
-
-######################### enrichment_heatmap ##################################
-# -*- coding: utf-8 -*-
-
+from matplotlib.patches import Circle
+from matplotlib.legend_handler import HandlerPatch
+from matplotlib.patches import Polygon
 
 
 from pandas import DataFrame
@@ -50,6 +50,17 @@ from anndata import AnnData
 from typing import Optional
 from matplotlib.colors import ListedColormap
 from matplotlib import cm, colors
+
+from sklearn.preprocessing import LabelEncoder
+from collections import Counter
+
+
+
+######################### enrichment_heatmap ##################################
+# -*- coding: utf-8 -*-
+
+
+
 
 def _assign_color(value, color: list):
     color_dict = dict()
@@ -246,7 +257,7 @@ def enrichment_heatmap(cell_type_abundance,
 
 ######################### enrichment_heatmap ##################################
 
-from typing import Union, Tuple
+
 
 
 def normalize_then_clip(
@@ -716,7 +727,7 @@ def lr_calculation(X_l, R_weighted, ligands, receptors, L):
     
     return M, lr_pair
 
-from sklearn.preprocessing import LabelEncoder
+
 def cell_type_abundace(adata, ct_vec, dist_weight_matrix):
     n_cells = adata.shape[0]
     le = LabelEncoder()
@@ -1148,7 +1159,7 @@ def _cut_height_for_K(Z, K, N):
     return (h[idx] + h[idx + 1]) / 2.0    
     
 
-from collections import Counter
+
 def merge_small_clusters_by_Z(Z, labels, min_size=10, max_passes=3, verbose=False):
     """
     基于层次聚类树 Z，把 size < min_size 的簇合并到 Z 中最近的“兄弟簇”。
@@ -1494,7 +1505,7 @@ def louvain_clustering_O_CC(
 
 
 ########################################## clustering for large dataset #######################
-from sklearn.cluster import MiniBatchKMeans
+
 
 # -*- coding: utf-8 -*-
 """
@@ -1508,7 +1519,6 @@ meta 层：构建 kNN（仅 meta 级），用 Louvain 做多分辨率×多种子
 
 
 
-from scipy.sparse import issparse
 
 # -------------------------
 # 工具函数
@@ -1939,14 +1949,7 @@ def louvain_clustering_O_CC_large_data_hi(
     - 始终输出 K_list 中各 K 的结果（2,5）。
     - 额外在 [min(K_list)..max(K_list)] 上扫描并返回最佳 K（8-11）。
     """
-    import numpy as np
-    import pandas as pd
-    import scanpy as sc
-    from scipy.sparse import issparse
-    from sklearn.preprocessing import normalize
-    from sklearn.cluster import MiniBatchKMeans
-    from scipy.spatial.distance import squareform
-    from scipy.cluster.hierarchy import linkage, cut_tree, dendrogram
+    
 
     # -------------------------
     # 参数校验
@@ -2159,7 +2162,6 @@ def louvain_clustering_O_CC_large_data_hi(
 def _select_best_K(distance_mat, labels_by_K_meta, similarity_mat_meta=None,
                     method='pac', pac_l=0.1, pac_u=0.9,
                     tiebreaker_silhouette=True, tiebreaker_tol=1e-4):
-    import numpy as np
     Ks = sorted(labels_by_K_meta.keys())
     scores = {}
 
@@ -3014,7 +3016,7 @@ def neighboor_enrichment_analysis_single(
     types_all = np.unique(ct_all)
     types_dom = np.unique(ct_dom)
 
-    from scipy.sparse import csr_matrix
+    
     def _one_hot_sparse(labels, categories):
         cat2idx = {c:i for i,c in enumerate(categories)}
         row = np.arange(labels.size, dtype=int)
@@ -3317,8 +3319,7 @@ def Bubble_plot(df, scatter_size=300, fig_width=8, fig_length=6, legend_avail = 
 
 
 
-from matplotlib.patches import Circle
-from matplotlib.legend_handler import HandlerPatch
+
 
 
 # 定义自定义圆形图例 handler
@@ -3335,7 +3336,7 @@ class HandlerCircle(HandlerPatch):
 
 
 
-from matplotlib.patches import Polygon
+
 def plot_core_network_gradient_ribbon(
     df_adj,
     palette_dict,
