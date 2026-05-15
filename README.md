@@ -28,7 +28,7 @@ To install **CommuNiche**, please follow these steps:
     In this step, we install all the requirments for CommuNiche
 
 
-2. **Clone the repository and install Spot2Cell**:
+2. **Clone the repository and install CommuNiche**:
 
     ```bash
     git clone https://github.com/keyalone/CommuNiche.git
@@ -47,12 +47,9 @@ To facilitate usability and reproducibility of our results, we have uploaded all
 
 We provide source codes for reproducing the CommuNiche analysis in the main text in the `demos` directory.
 
-- [Preprocessing pipeline for HER2-positive breast cancer](demos/Preprocessing_pipeline_for_G2.ipynb)
-- [Preprocessing pipeline for human prostate cancer](demos/Preprocessing_pipeline_for_PC.ipynb)
-- [Reconstruction of single-cell spatial maps for HER2-positive breast cancer](demos/HER2-positive_Reproducibility.ipynb)
-- [CCI analysis in in-situ cancer for HER2-positive breast cancer](CCI_analysis_in_in-situ_cancer_for_G2.html)
-- [Reconstruction of single-cell spatial maps for visium prostate cancer](demos/Visium_Prostate_Reproducibility.ipynb)
-- [Differential CCI and pseudotime analysis for visium prostate cancer](demos/DifferentialCCI_Pseudotime_for_PC.html)
+- [Communication-defined niches resolve tumor core architecture and specialized boundary states in human breast cancer](demo/BC_rep.ipynb)
+- [Communication-defined niches reveal progressive immune-state reprogramming](demo/BC_CD8.ipynb)
+
 
  
 ## Contact information
